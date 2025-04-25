@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin - Food Symphony</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header with Tabs -->
+  <header>
+    <div class="tabs">
+      <button class="tab-button active" onclick="showTab('menu')">Menu</button>
+      <button class="tab-button" onclick="window.location.href='../admin/order.html'"">Orders</button>
+
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <div class="content">
+    <div class="menu-container">
+      <h1>Menu Management</h1>
+
+      <!-- Hardcoded Menu Items -->
+      <div id="menu-list">
+        <div class="menu-item">
+          <img src="./images/Chicken Sandwich.jpg" alt="Chkn Sandwich" />
+          <h4>Chicken Sandwich (1 Pc)</h4>
+          <p class="price">₹35.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/Egg Sandwich.png" alt="Egg Sandwich" />
+          <h4>Egg Sandwich (1 Pc)</h4>
+          <p class="price">₹30.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/Veg Sandwich.png" alt="Veg Sandwich" />
+          <h4>Veg Sandwich (1 Pc)</h4>
+          <p class="price">₹30.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/Egg Devil.png" alt="Egg Devil" />
+          <h4>Egg Devil (1 Pc)</h4>
+          <p class="price">₹35.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/aloo paratha.png" alt="Aloo Paratha" />
+          <h4>Aloo Paratha (1 Pc)</h4>
+          <p class="price">₹20.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/egg curry.png" alt="Egg Curry" />
+          <h4>Egg Curry (2 Pc)</h4>
+          <p class="price">₹50.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/chilli chkn 2.png" alt="Chilli Chicken" />
+          <h4>Chilly Chicken (4 Pc)</h4>
+          <p class="price">₹100.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/clilli chkn.png" alt="Chilli Chicken Boneless" />
+          <h4>Chilly Chicken Boneless (4 Pc)</h4>
+          <p class="price">₹120.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/fried rice.png" alt="Fried Rice" />
+          <h4>Fried Rice</h4>
+          <p class="price">₹90.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/aloor dum.png" alt="Aloo Dum" />
+          <h4>Aloo Dum (6 Pc)</h4>
+          <p class="price">₹60.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/kasundi chkn.png" alt="Chicken Kasundi" />
+          <h4>Chicken Kasundi (4 Pc)</h4>
+          <p class="price">₹100.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/fishfry.jpg" alt="Fish Fry" />
+          <h4>Fish Fry (1 Pc)</h4>
+          <p class="price">₹90.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/fish finger.png" alt="Fish Finger" />
+          <h4>Fish Finger (4 Pc)</h4>
+          <p class="price">₹100.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/crispyFish-Fry.jpg" alt="Crispy Fish Fry" />
+          <h4>Crispy Fish Fry (6 Pc)</h4>
+          <p class="price">₹120.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/chkn pakoda.png" alt="Chicken Pakoda" />
+          <h4>Chicken Pakoda (6 Pc)</h4>
+          <p class="price">₹100.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/pan fry chkn.jpg" alt="Chicken Pan Fry" />
+          <h4>Chicken Pan Fry (6 Pc)</h4>
+          <p class="price">₹140.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/chicken kasha.png" alt="Chicken Kasha" />
+          <h4>Chicken Kasha (6 Pc)</h4>
+          <p class="price">₹140.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/plain paratha.png" alt="Plain Paratha" />
+          <h4>Plain Paratha (1 Pc)</h4>
+          <p class="price">₹15.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/fish chop.png" alt="Fish Chop" />
+          <h4>Fish Chop (1 Pc)</h4>
+          <p class="price">₹25.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/luchi alur dum.jpg" alt="Luchi Aloo Dum Combo" />
+          <h4>Luchi Aloo Dum Combo (4 Pc luchi + 4 Pc Aloo)</h4>
+          <p class="price">₹80.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/friedrice chilli chkn.png" alt="Fried Rice Chilly Chicken Combo Bone" />
+          <h4>Fried Rice Chilly Chicken Combo (4 Pc Bone)</h4>
+          <p class="price">₹140.00</p>          
+        </div>
+        <div class="menu-item">
+          <img src="./images/friedrice chilli chkn.png" alt="Fried Rice Chilly Chicken Combo Boneless" />
+          <h4>Fried Rice Chilly Chicken Combo (4 Pc Boneless)</h4>
+          <p class="price">₹150.00</p>          
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional Orders Tab (can be filled later) -->
+    <div class="orders-container" style="display: none;">
+      <h1>Orders</h1>
+      <p>No orders available.</p>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching only
+    function showTab(tabName) {
+      const menuTab = document.querySelector('.menu-container');
+      const ordersTab = document.querySelector('.orders-container');
+
+      if (tabName === 'menu') {
+        menuTab.style.display = 'block';
+        ordersTab.style.display = 'none';
+        document.querySelector('.tab-button.active').classList.remove('active');
+        document.querySelector('[onclick="showTab(\'menu\')"]').classList.add('active');
+      } else {
+        menuTab.style.display = 'none';
+        ordersTab.style.display = 'block';
+        document.querySelector('.tab-button.active').classList.remove('active');
+        document.querySelector('[onclick="showTab(\'orders\')"]').classList.add('active');
+      }
+    }
+
+    // Set default tab
+    showTab('menu');
+  </script>
+</body>
+</html>

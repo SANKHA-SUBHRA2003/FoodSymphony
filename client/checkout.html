@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Food Symphony</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .checkout-form {
+      background-color: rgba(255,255,255,0.88);
+      padding: 30px 40px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: 40px auto 30px auto;
+      color: #222;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .checkout-form h2 {
+      text-align: center;
+      color: #28a745;
+      margin-bottom: 25px;
+    }
+    .checkout-form label {
+      display: block;
+      margin: 16px 0 6px 0;
+      font-weight: bold;
+    }
+    .checkout-form input[type="text"],
+    .checkout-form input[type="tel"],
+    .checkout-form textarea,
+    .checkout-form input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    .checkout-form textarea {
+      resize: vertical;
+      min-height: 60px;
+      max-height: 120px;
+    }
+    .delivery-options, .takeaway-options {
+      margin-bottom: 12px;
+    }
+    .delivery-options label,
+    .takeaway-options label {
+      font-weight: normal;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+    .extra-charge {
+      color: #dc3545;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .qr-section {
+      margin: 28px 0 18px 0;
+      text-align: center;
+    }
+    .qr-section img {
+      width: 160px;
+      height: 160px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      border: 1px solid #eee;
+      background: #fff;
+      object-fit: contain;
+    }
+    .qr-section p {
+      color: #28a745;
+      font-weight: bold;
+      font-size: 17px;
+    }
+    .finish-btn {
+      display: block;
+      width: 100%;
+      padding: 15px 0;
+      font-size: 18px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      margin-top: 18px;
+      margin-bottom: 6px;
+    }
+    .finish-btn:hover {
+      background-color: #218838;
+    }
+    @media (max-width: 600px) {
+      .checkout-form {
+        padding: 18px 6vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="tabs">
+      <button class="tab-button active">Checkout</button>
+    </div>
+  </header>
+  <div class="content" style="justify-content: center; align-items: flex-start;">
+    <form class="checkout-form" id="checkoutForm" autocomplete="off">
+      <h2>Checkout</h2>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required autocomplete="name" />
+
+      <label for="address">Address</label>
+      <textarea id="address" name="address" required autocomplete="street-address"></textarea>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" maxlength="10" autocomplete="tel" />
+
+      <label>Delivery Option</label>
+      <div class="delivery-options">
+        <label>
+          <input type="radio" name="deliveryTime" value="today" checked onchange="toggleScheduleDate()" />
+          Deliver Today
+        </label>
+        <label>
+          <input type="radio" name="deliveryTime" value="schedule" onchange="toggleScheduleDate()" />
+          Schedule Delivery
+        </label>
+      </div>
+      <div id="schedule-date-div" style="display:none;">
+        <label for="schedule-date">Choose Delivery Date</label>
+        <input type="date" id="schedule-date" name="schedule-date" min="" />
+      </div>
+
+      <label>Order Type</label>
+      <div class="takeaway-options">
+        <label>
+          <input type="radio" name="orderType" value="takeaway" checked />
+          Takeaway
+        </label>
+        <label>
+          <input type="radio" name="orderType" value="delivery" />
+          Home Delivery
+        </label>
+      </div>
+      <div class="extra-charge" id="extraChargeMsg" style="display:none;">
+        Extra charges applicable for home delivery.
+      </div>
+
+      <div class="qr-section">
+        <!-- You can replace src with your real QR code -->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=your-upi-id@bank" alt="QR Code for Payment" />
+        <p>Make 20% advance payment</p>
+      </div>
+
+      <button type="submit" class="finish-btn">Finish</button>
+    </form>
+  </div>
+  <script>
+    // Set min date for schedule delivery to today
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      document.getElementById('schedule-date').min = `${yyyy}-${mm}-${dd}`;
+    });
+
+    function toggleScheduleDate() {
+      const scheduleRadio = document.querySelector('input[name="deliveryTime"][value="schedule"]');
+      document.getElementById('schedule-date-div').style.display = scheduleRadio.checked ? 'block' : 'none';
+    }
+
+    // Show extra charge if home delivery is selected
+    document.querySelectorAll('input[name="orderType"]').forEach(function(elem) {
+      elem.addEventListener('change', function() {
+        document.getElementById('extraChargeMsg').style.display =
+          document.querySelector('input[name="orderType"][value="delivery"]').checked ? 'block' : 'none';
+      });
+    });
+
+    // Handle form submission and save order data
+    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+    
+      // Get cart items from localStorage
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      let total = 0;
+      cart.forEach(item => {
+        total += (item.price || 0) * (item.qty || 0);
+      });
+    
+      // Build order object
+      const order = {
+        name: document.getElementById('name').value,
+        address: document.getElementById('address').value,
+        phone: document.getElementById('phone').value,
+        deliveryOption: document.querySelector('input[name="deliveryTime"]:checked').value,
+        deliveryDate: document.querySelector('input[name="deliveryTime"]:checked').value === 'schedule'
+          ? document.getElementById('schedule-date').value
+          : new Date().toISOString().slice(0, 10),
+        orderType: document.querySelector('input[name="orderType"]:checked').value,
+        items: cart,
+        total: total,
+        date: new Date().toLocaleString()
+      };
+    
+      // Save to localStorage
+      let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+    
+      // Optionally clear the cart
+      localStorage.removeItem('cart');
+    
+      alert("Thank you for your order! Your details have been submitted.");
+    });
+    
+      // Optionally redirect or clear form here
+      // window.location.href = "thankyou.html";
+    
+  </script>
+</body>
+</html>

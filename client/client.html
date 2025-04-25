@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order - Food Symphony</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Add/override styles for dropdown and cart button */
+    .menu-item .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .menu-item select {
+      padding: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    .cart-btn {
+      display: block;
+      margin: 40px auto 0 auto;
+      padding: 15px 35px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+      transition: background 0.2s;
+    }
+    .cart-btn:hover {
+      background-color: #218838;
+    }
+    /* Cart Modal */
+    #cart-modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+    #cart-modal .cart-content {
+      background: #fff;
+      color: #222;
+      border-radius: 10px;
+      padding: 30px 40px;
+      min-width: 350px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      text-align: left;
+      position: relative;
+     
+
+    }
+    #cart-modal .close-btn {
+      position: absolute;
+      right: 15px; top: 10px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+    }
+    #cart-modal h2 {
+      margin-top: 0;
+      font-size: 1.5em;
+      color: #28a745;
+    }
+    #cart-items {
+      margin: 20px 0;
+      padding: 0;
+      list-style: none;
+    }
+    #cart-items li {
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Tabs -->
+  <header>
+    <div class="tabs">
+      <button class="tab-button active">Menu</button>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <div class="content">
+    <div class="menu-container">
+      <h1>Order Menu</h1>
+      <div id="menu-list">
+        <div class="menu-item" data-name="Chicken Sandwich (1 Pc)" data-price="35">
+          <img src="../admin/images/Chicken Sandwich.jpg" alt="Chicken Sandwich" />
+          <h4>Chicken Sandwich (1 Pc)</h4>
+          <p class="price">₹35.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Egg Sandwich (1 Pc)" data-price="30">
+          <img src="../admin/images/Egg Sandwich.png" alt="Egg Sandwich" />
+          <h4>Egg Sandwich (1 Pc)</h4>
+          <p class="price">₹30.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Veg Sandwich (1 Pc)" data-price="30">
+          <img src="../admin/images/Veg Sandwich.png" alt="Veg Sandwich" />
+          <h4>Veg Sandwich (1 Pc)</h4>
+          <p class="price">₹30.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Egg Devil (1 Pc)" data-price="35">
+          <img src="../admin/images/Egg Devil.png" alt="Egg Devil" />
+          <h4>Egg Devil (1 Pc)</h4>
+          <p class="price">₹35.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Aloo Paratha (1 Pc)" data-price="20">
+          <img src="../admin/images/aloo paratha.png" alt="Aloo Paratha" />
+          <h4>Aloo Paratha (1 Pc)</h4>
+          <p class="price">₹20.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Egg Curry (2 Pc)" data-price="50">
+          <img src="../admin/images/egg curry.png" alt="Egg Curry" />
+          <h4>Egg Curry (2 Pc)</h4>
+          <p class="price">₹50.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Chilly Chicken (4 Pc)" data-price="100">
+          <img src="../admin/images/chilli chkn 2.png" alt="Chilly Chicken" />
+          <h4>Chilly Chicken (4 Pc)</h4>
+          <p class="price">₹100.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Chilly Chicken Boneless (4 Pc)" data-price="120">
+          <img src="../admin/images/clilli chkn.png" alt="Chilly Chicken Boneless" />
+          <h4>Chilly Chicken Boneless (4 Pc)</h4>
+          <p class="price">₹120.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Fried Rice" data-price="90">
+          <img src="../admin/images/fried rice.png" alt="Fried Rice" />
+          <h4>Fried Rice</h4>
+          <p class="price">₹90.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Aloo Dum (6 Pc)" data-price="60">
+          <img src="../admin/images/aloor dum.png" alt="Aloo Dum" />
+          <h4>Aloo Dum (6 Pc)</h4>
+          <p class="price">₹60.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Chicken Kasundi (4 Pc)" data-price="100">
+          <img src="../admin/images/kasundi chkn.png" alt="Chicken Kasundi" />
+          <h4>Chicken Kasundi (4 Pc)</h4>
+          <p class="price">₹100.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Fish Fry (1 Pc)" data-price="90">
+          <img src="../admin/images/fishfry.jpg" alt="Fish Fry" />
+          <h4>Fish Fry (1 Pc)</h4>
+          <p class="price">₹90.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Fish Finger (4 Pc)" data-price="100">
+          <img src="../admin/images/fish finger.png" alt="Fish Finger" />
+          <h4>Fish Finger (4 Pc)</h4>
+          <p class="price">₹100.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Crispy Fish Fry (6 Pc)" data-price="120">
+          <img src="../admin/images/crispyFish-Fry.jpg" alt="Crispy Fish Fry" />
+          <h4>Crispy Fish Fry (6 Pc)</h4>
+          <p class="price">₹120.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Chicken Pakoda (6 Pc)" data-price="100">
+          <img src="../admin/images/chkn pakoda.png" alt="Chicken Pakoda" />
+          <h4>Chicken Pakoda (6 Pc)</h4>
+          <p class="price">₹100.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Chicken Pan Fry (6 Pc)" data-price="140">
+          <img src="../admin/images/pan fry chkn.jpg" alt="Chicken Pan Fry" />
+          <h4>Chicken Pan Fry (6 Pc)</h4>
+          <p class="price">₹140.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Chicken Kasha (6 Pc)" data-price="140">
+          <img src="../admin/images/chicken kasha.png" alt="Chicken Kasha" />
+          <h4>Chicken Kasha (6 Pc)</h4>
+          <p class="price">₹140.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Plain Paratha (1 Pc)" data-price="15">
+          <img src="../admin/images/plain paratha.png" alt="Plain Paratha" />
+          <h4>Plain Paratha (1 Pc)</h4>
+          <p class="price">₹15.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Fish Chop (1 Pc)" data-price="25">
+          <img src="../admin/images/fish chop.png" alt="Fish Chop" />
+          <h4>Fish Chop (1 Pc)</h4>
+          <p class="price">₹25.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Luchi Aloo Dum Combo (4 Pc luchi + 4 Pc Aloo)" data-price="80">
+          <img src="../admin/images/luchi alur dum.jpg" alt="Luchi Aloo Dum Combo" />
+          <h4>Luchi Aloo Dum Combo (4 Pc luchi + 4 Pc Aloo)</h4>
+          <p class="price">₹80.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Fried Rice Chilly Chicken Combo (4 Pc Bone)" data-price="140">
+          <img src="../admin/images/friedrice chilli chkn.png" alt="Fried Rice Chilly Chicken Combo Bone" />
+          <h4>Fried Rice Chilly Chicken Combo (4 Pc Bone)</h4>
+          <p class="price">₹140.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+        <div class="menu-item" data-name="Fried Rice Chilly Chicken Combo (4 Pc Boneless)" data-price="150">
+          <img src="../admin/images/friedrice chilli chkn.png" alt="Fried Rice Chilly Chicken Combo Boneless" />
+          <h4>Fried Rice Chilly Chicken Combo (4 Pc Boneless)</h4>
+          <p class="price">₹150.00</p>
+          <div class="controls">
+            <select class="qty-select">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button class="add-cart-btn">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- View Cart button -->
+      <button class="cart-btn" onclick="showCart()">View Cart</button>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cart-modal">
+    <div class="cart-content">
+      <button class="close-btn" onclick="hideCart()">&times;</button>
+      <h2>Your Cart</h2>
+      <ul id="cart-items"></ul>
+      <h3 id="cart-total"></h3>
+      <button class="cart-btn" onclick="proceedToCheckout()">Proceed to checkout</button>
+    </div>
+  </div>
+
+  <script>
+    // Cart logic
+   // Load cart from localStorage or start with empty array
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+document.querySelectorAll('.add-cart-btn').forEach((btn) => {
+  btn.addEventListener('click', function() {
+    const itemDiv = btn.closest('.menu-item');
+    const name = itemDiv.dataset.name;
+    const price = parseFloat(itemDiv.dataset.price);
+    const qty = parseInt(itemDiv.querySelector('.qty-select').value, 10);
+    if (qty > 0) {
+      // Check if item already exists in cart
+      let existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({ name, price, qty });
+      }
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${qty} x ${name} added to cart`);
+    }
+  });
+});
+
+
+
+   
+
+    // Show cart modal
+    function showCart() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const cartItems = document.getElementById('cart-items');
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        if (item.qty > 0) {
+          const itemTotal = item.qty * item.price;
+          total += itemTotal;
+          const li = document.createElement('li');
+          li.textContent = `${item.name} — ${item.qty} × ₹${item.price} = ₹${itemTotal}`;
+          cartItems.appendChild(li);
+        }
+      });
+      if (total === 0) {
+        cartItems.innerHTML = '<li>Your cart is empty.</li>';
+      }
+      document.getElementById('cart-total').textContent = total > 0 ? `Total: ₹${total}` : '';
+      document.getElementById('cart-modal').style.display = 'flex';
+    }
+    
+    function hideCart() {
+      document.getElementById('cart-modal').style.display = 'none';
+    }
+    function proceedToCheckout() {
+        window.location.href = "./checkout.html"; // or your desired page
+      }
+      
+  </script>
+</body>
+</html>

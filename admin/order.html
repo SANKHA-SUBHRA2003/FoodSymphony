@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Orders - Food Symphony</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .orders-container {
+      background: rgba(255,255,255,0.93);
+      max-width: 900px;
+      margin: 40px auto 30px auto;
+      border-radius: 10px;
+      padding: 30px;
+      color: #222;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #fff;
+    }
+    th, td {
+      padding: 12px 8px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #28a745;
+      color: #fff;
+    }
+    .delete-btn {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .delete-btn:hover {
+      background: #c82333;
+    }
+    .item-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .item-list li {
+      margin-bottom: 2px;
+    }
+    @media (max-width: 700px) {
+      .orders-container { padding: 12px; }
+      table, th, td { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="tabs">
+      <button class="tab-button" onclick="window.location.href='admin.html'">Menu</button>
+      <button class="tab-button active">Orders</button>
+    </div>
+  </header>
+  <div class="content" style="justify-content: center; align-items: flex-start;">
+    <div class="orders-container">
+      <h1>All Orders</h1>
+      <table id="orders-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name & Info</th>
+            <th>Items</th>
+            <th>Delivery Date</th>
+            <th>Total Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Orders will be injected here -->
+        </tbody>
+      </table>
+      <p id="no-orders" style="text-align:center; color:#888; display:none;">No orders found.</p>
+    </div>
+  </div>
+  <script>
+    function loadOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const tbody = document.querySelector('#orders-table tbody');
+      tbody.innerHTML = '';
+      if (orders.length === 0) {
+        document.getElementById('no-orders').style.display = 'block';
+        document.getElementById('orders-table').style.display = 'none';
+        return;
+      }
+      document.getElementById('no-orders').style.display = 'none';
+      document.getElementById('orders-table').style.display = 'table';
+      orders.forEach((order, idx) => {
+        const itemsHtml = order.items && order.items.length
+          ? `<ul class="item-list">${order.items.map(item =>
+              `<li>${item.name} &times; ${item.qty} @ ₹${item.price} = ₹${item.qty * item.price}</li>`
+            ).join('')}</ul>`
+          : '—';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${idx+1}</td>
+          <td>
+            <b>${order.name}</b><br>
+            ${order.address}<br>
+            📞 ${order.phone}
+          </td>
+          <td>${itemsHtml}</td>
+          <td>${order.deliveryDate || ''}</td>
+          <td>₹${order.total || ''}</td>
+          <td><button class="delete-btn" onclick="deleteOrder(${idx})">Delete</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function deleteOrder(idx) {
+      let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      if (confirm('Are you sure you want to delete this order?')) {
+        orders.splice(idx, 1);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        loadOrders();
+      }
+    }
+
+    loadOrders();
+  </script>
+</body>
+</html>
